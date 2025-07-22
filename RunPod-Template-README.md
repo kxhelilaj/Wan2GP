@@ -1,5 +1,7 @@
 # Wan2GP - AI Video Generation Template
 
+#### Last Updated on 7/22/2025 to Wan2GP v7.12
+
 ## What is Wan2GP?
 
 WAN2GP (aka "Wan 2.1 for the GPU Poor") is a free, open-source tool that lets you generate videos using advanced AI models—even on modest GPUs. Wan2GP supports multiple state-of-the-art models including:
@@ -14,14 +16,14 @@ This RunPod template is an extenstion of the official Runpod Pytorch 2.8.0 templ
 
 - ✅ **Wan2GP Application** - Ready to use on port 7860
 - ✅ **Jupyter Lab** - Development environment on port 8888
-- ✅ **All Dependencies** - PyTorch, FFmpeg, and AI libraries pre-installed
-- ✅ **Persistent Storage** - Your models and outputs saved to `/workspace`
+- ✅ **All Dependencies** - PyTorch, FFmpeg, and required python libraries pre-installed
+- ✅ **Storage** - Your models and outputs saved to `/workspace`
 
 ## Quick Start
 
 ### 1. Launch Your Pod
 
-- **CUDA Version**: Make sure you use a machine that has CUDA 12.8 installed (use additional filters when selecting machine)
+- **CUDA Version**: Make sure you use a machine that has **CUDA 12.8** installed (use additional filters when selecting machine)
 - **Recommended**: This template was tested with an A40
 
 ### 2. Wait for Startup (Important!)
@@ -34,7 +36,7 @@ This RunPod template is an extenstion of the official Runpod Pytorch 2.8.0 templ
 
 1. Wait for startup to complete
 2. Connect to port **7860**
-3. Start generating videos!
+3. Start generating videos! Note that on the first run of a model (when you hit "generate"), the model is downloaded which can take a few additional minutes. The next time you generate with the same model, the model is already there and the generation can start right away.
 
 #### Jupyter Lab (Optional)
 
@@ -45,11 +47,6 @@ This RunPod template is an extenstion of the official Runpod Pytorch 2.8.0 templ
    ```
 3. Look for `--ServerApp.token=XXXXXX` in the output
 4. Use that token to log into Jupyter Lab
-
-## First Run
-
-- Models download automatically on first use
-- Models are cached in `/workspace` for future use
 
 ## Troubleshooting
 
@@ -74,7 +71,7 @@ python3 wgp.py --server-name 0.0.0.0
 ## Support
 
 - **Template Issues**: [GitHub Issues](https://github.com/Square-Zero-Labs/Wan2GP/issues)
-- **Model Questions**: Check the Wan2GP documentation
+- **Model Questions**: Check the [Wan2GP documentation](https://github.com/deepbeepmeep/Wan2GP)
 - **RunPod Platform**: RunPod support
 
 ---
