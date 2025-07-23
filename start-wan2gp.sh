@@ -65,11 +65,6 @@ if ! nginx -t 2>/dev/null; then
     exit 1
 fi
 
-# Reload nginx to apply changes
-if ! nginx -s reload 2>/dev/null; then
-    echo "❌ ERROR: nginx reload failed"
-    exit 1
-fi
 
 echo "✅ Authentication proxy configured - Username: $USERNAME, Password: $PASSWORD"
 echo "🌐 Access via port 7862 with authentication"
@@ -91,14 +86,16 @@ echo ""
 echo "🔐 AUTHENTICATION REQUIRED:"
 echo "   Username: $USERNAME"
 echo "   Password: $PASSWORD"
-echo "   Access URL: http://your-runpod-url:${WAN2GP_ACCESS_PORT:-7862}"
 echo ""
 
-# Now chain to RunPod's natural startup process
+# Now chain to RunPod's natural startup process, giving our app a moment to start
+echo "Waiting for Wan2GP to initialize..."
+sleep 5
+
 echo "Starting RunPod services..."
 if [ -f "/start.sh" ]; then
-    exec /start.sh
+    /start.sh
 else
-    echo "No /start.sh found, keeping container alive"
+    echo "No /start.sh found, keeping container alive by monitoring log for debugging."
     tail -f /workspace/wan2gp.log
 fi 
