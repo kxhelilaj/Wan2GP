@@ -36,7 +36,7 @@ COPY start-wan2gp.sh /usr/local/bin/start-wan2gp.sh
 RUN chmod +x /usr/local/bin/start-wan2gp.sh
 
 # Expose ports for authenticated Gradio interface and Jupyter Lab
-EXPOSE 7861 8888
+EXPOSE 7862 8888
 
 # Use our startup script as the main command
 CMD ["/usr/local/bin/start-wan2gp.sh"] 
