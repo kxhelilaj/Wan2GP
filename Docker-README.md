@@ -12,7 +12,7 @@ The image will automatically:
 
 - Set up the complete Wan2GP environment
 - Install all dependencies (PyTorch, CUDA, FFmpeg, etc.)
-- **Start password-protected Gradio interface on port 7860**
+- **Start password-protected Gradio interface on port 7861 (proxy to internal 7860)**
 - Start Jupyter Lab on port 8888 (get token with `ps aux | grep jupyter`)
 - Use `/workspace` as the working directory
 
@@ -29,7 +29,7 @@ Your Wan2GP deployment includes automatic password protection:
 Set environment variables when running:
 
 ```bash
-docker run --gpus all -p 7860:7860 \
+docker run --gpus all -p 7861:7861 \
   -e WAN2GP_PASSWORD="your_secure_password" \
   -e WAN2GP_USERNAME="your_username" \
   ghcr.io/square-zero-labs/wan2gp:latest
@@ -68,10 +68,10 @@ docker build -t wan2gp:local .
 
 ```bash
 # Run with GPU support (requires nvidia-docker)
-docker run --gpus all -p 7860:7860 -p 8888:8888 wan2gp:local
+docker run --gpus all -p 7861:7861 -p 8888:8888 wan2gp:local
 
 # Run without GPU (CPU only)
-docker run -p 7860:7860 -p 8888:8888 wan2gp:local
+docker run -p 7861:7861 -p 8888:8888 wan2gp:local
 ```
 
 ## RunPod Template Configuration
@@ -84,12 +84,12 @@ Create a new RunPod template with these settings:
 - **Container Image**: `ghcr.io/square-zero-labs/wan2gp:latest`
 - **Container Disk**: 50 GB (for OS and applications)
 - **Volume Storage**: 75 GB minimum (for models and outputs)
-- **Expose HTTP Ports**: `7860,8888`
+- **Expose HTTP Ports**: `7861,8888`
 - **Volume Mount Path**: `/workspace` (recommended for persistence)
 
 ### What You Get
 
-- **Wan2GP Application**: Available on port 7860 (password protected)
+- **Wan2GP Application**: Available on port 7861 (password protected)
 - **Jupyter Lab**: Available on port 8888 (get token with `ps aux | grep jupyter`)
 - **SSH Access**: Standard RunPod SSH functionality
 - **File Persistence**: Files saved to `/workspace` persist across restarts
@@ -99,7 +99,7 @@ Create a new RunPod template with these settings:
 The container automatically integrates with RunPod's nginx infrastructure:
 
 - **External Access**: Port 7861 with login required (RunPod's proxy + auth)
-- **Internal Application**: Runs on port 7862 (behind authenticated proxy)
+- **Internal Application**: Runs on port 7860 (behind authenticated proxy)
 - **No Code Changes**: wgp.py runs normally, nginx handles security
 - **Fail-Safe**: Container build fails if RunPod infrastructure changes
 
@@ -107,6 +107,17 @@ The container automatically integrates with RunPod's nginx infrastructure:
 
 - Default: `admin` / `gpuPoor2025`
 - Custom: Set `WAN2GP_USERNAME` and `WAN2GP_PASSWORD` environment variables
+
+**Important:** Always access via port **7861** for authentication. Port 7860 is internal-only and not exposed.
+
+#### Architecture Flow
+
+```
+Internet → Port 7861 (nginx + auth) → Port 7860 (Gradio internal)
+```
+
+- **Port 7861**: Public access point with authentication (exposed)
+- **Port 7860**: Internal Gradio application (not exposed)
 
 ### Environment Variables (Optional)
 
@@ -193,7 +204,7 @@ curl -s http://localhost:8888 | head
 - `/workspace/Wan2GP/` - Main application directory (persistent if volume mounted)
 - `/opt/wan2gp_source/` - Backup copy of application (built into image)
 - `/workspace/wan2gp.log` - Application logs
-- Ports 7860 (Gradio) and 8888 (Jupyter Lab) exposed
+- Ports 7861 (authenticated Gradio proxy) and 8888 (Jupyter Lab) exposed
 
 ### Startup Process
 
@@ -357,7 +368,7 @@ nvidia-smi
    ```bash
    # Test changes locally
    docker build -t wan2gp:test .
-   docker run --rm -p 7860:7860 -p 8888:8888 wan2gp:test
+   docker run --rm -p 7861:7861 -p 8888:8888 wan2gp:test
    ```
 
 2. **Testing**:
@@ -388,7 +399,7 @@ nvidia-smi
 - **Base Images**: Official RunPod/NVIDIA CUDA images
 - **Secrets**: No secrets or credentials included in images
 - **Permissions**: GitHub Actions uses minimal required permissions
-- **Network**: Only necessary ports (7860, 8888) exposed
+- **Network**: Only necessary ports (7861, 8888) exposed
 
 ## Support
 

@@ -67,7 +67,7 @@ WAN2GP_PASSWORD=your_secure_password
 
 - **Integrates with RunPod's nginx** by adding authentication to existing proxy
 - **Port 7861**: Protected by login (what you access)
-- **Port 7862**: Internal Gradio application (behind RunPod's proxy)
+- **Port 7860**: Internal Gradio application (behind RunPod's proxy)
 - **Zero code changes**: wgp.py runs normally
 - **Reliable**: Fails clearly if RunPod infrastructure changes
 
