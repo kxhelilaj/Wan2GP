@@ -14,10 +14,11 @@ WAN2GP (aka "Wan 2.1 for the GPU Poor") is a free, open-source tool that lets yo
 
 This RunPod template is an extenstion of the official Runpod Pytorch 2.8.0 template. It gives you a fully configured environment with:
 
-- ✅ **Wan2GP Application** - Ready to use on port 7860
+- ✅ **Wan2GP Application** - Ready to use on port 7860 (password protected)
 - ✅ **Jupyter Lab** - Development environment on port 8888
 - ✅ **All Dependencies** - PyTorch, FFmpeg, and required python libraries pre-installed
 - ✅ **Storage** - Your models and outputs saved to `/workspace`
+- ✅ **Security** - Automatic nginx authentication to prevent unauthorized access
 
 ## Quick Start
 
@@ -36,7 +37,19 @@ This RunPod template is an extenstion of the official Runpod Pytorch 2.8.0 templ
 
 1. Wait for startup to complete
 2. Connect to port **7860**
-3. Start generating videos! Note that on the first run of a model (when you hit "generate"), the model is downloaded which can take a few additional minutes. The next time you generate with the same model, the model is already there and the generation can start right away.
+3. **Login when prompted:**
+   - Username: `admin`
+   - Password: `gpuPoor2025`
+4. Start generating videos! Note that on the first run of a model (when you hit "generate"), the model is downloaded which can take a few additional minutes. The next time you generate with the same model, the model is already there and the generation can start right away.
+
+#### Custom Authentication (Optional)
+
+To use your own login credentials, set environment variables in your RunPod template:
+
+```
+WAN2GP_USERNAME=your_username
+WAN2GP_PASSWORD=your_secure_password
+```
 
 #### Jupyter Lab (Optional)
 
@@ -48,7 +61,37 @@ This RunPod template is an extenstion of the official Runpod Pytorch 2.8.0 templ
 3. Look for `--ServerApp.token=XXXXXX` in the output
 4. Use that token to log into Jupyter Lab
 
+## Authentication Details
+
+### How It Works
+
+- **nginx** automatically starts with password protection
+- **Port 7860**: Protected by login (what you access)
+- **Port 7861**: Internal Gradio application (hidden)
+- **Zero code changes**: wgp.py runs normally
+
+### Benefits
+
+- ✅ **Prevents unauthorized GPU usage** - stops random people from finding and abusing your instance
+- ✅ **Simple setup** - works automatically with default password
+- ✅ **Customizable** - set your own credentials via environment variables
+- ✅ **Professional** - proper HTTP basic authentication
+
+### Disable Authentication
+
+If you want to disable authentication, SSH into your pod and run:
+
+```bash
+python wgp.py --server-name 0.0.0.0 --server-port 7860
+```
+
 ## Troubleshooting
+
+### Can't Login
+
+- Try the default credentials: `admin` / `gpuPoor2025`
+- Check if you set custom `WAN2GP_PASSWORD` environment variable
+- Wait 30 seconds after pod start for nginx to initialize
 
 ### Application Not Loading?
 
