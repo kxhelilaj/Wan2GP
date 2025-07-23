@@ -12,9 +12,28 @@ The image will automatically:
 
 - Set up the complete Wan2GP environment
 - Install all dependencies (PyTorch, CUDA, FFmpeg, etc.)
-- Start the Gradio interface on port 7860
+- **Start password-protected Gradio interface on port 7860**
 - Start Jupyter Lab on port 8888 (get token with `ps aux | grep jupyter`)
 - Use `/workspace` as the working directory
+
+## 🔒 Authentication
+
+Your Wan2GP deployment includes automatic password protection:
+
+**Default Login:**
+
+- Username: `admin`
+- Password: `gpuPoor2025`
+
+**Custom Password (Optional):**
+Set environment variables when running:
+
+```bash
+docker run --gpus all -p 7860:7860 \
+  -e WAN2GP_PASSWORD="your_secure_password" \
+  -e WAN2GP_USERNAME="your_username" \
+  ghcr.io/square-zero-labs/wan2gp:latest
+```
 
 ## GitHub Container Registry
 
@@ -70,10 +89,23 @@ Create a new RunPod template with these settings:
 
 ### What You Get
 
-- **Wan2GP Application**: Available on port 7860
+- **Wan2GP Application**: Available on port 7860 (password protected)
 - **Jupyter Lab**: Available on port 8888 (get token with `ps aux | grep jupyter`)
 - **SSH Access**: Standard RunPod SSH functionality
 - **File Persistence**: Files saved to `/workspace` persist across restarts
+
+### Authentication Setup
+
+The container automatically configures nginx with password protection:
+
+- **External Access**: Port 7860 with login required
+- **Internal Application**: Runs on port 7861 (hidden from internet)
+- **No Code Changes**: wgp.py runs normally, nginx handles security
+
+**Login Credentials:**
+
+- Default: `admin` / `gpuPoor2025`
+- Custom: Set `WAN2GP_USERNAME` and `WAN2GP_PASSWORD` environment variables
 
 ### Environment Variables (Optional)
 
@@ -81,6 +113,8 @@ You can customize the deployment with these environment variables:
 
 - `SERVER_NAME`: Default is `0.0.0.0`
 - `SERVER_PORT`: Default is `7860`
+- `WAN2GP_USERNAME`: Auth username (default: `admin`)
+- `WAN2GP_PASSWORD`: Auth password (default: `gpuPoor2025`)
 
 ## Checking Logs and Status
 
