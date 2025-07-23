@@ -8,13 +8,12 @@ ENV PIP_NO_CACHE_DIR=1
 ENV SHELL=/bin/bash
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-# Install system dependencies including nginx for auth
+# Install system dependencies 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ffmpeg \
     tmux \
     build-essential \
     rsync \
-    nginx \
     apache2-utils \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
@@ -32,10 +31,9 @@ RUN sed -i -e 's/^torch>=/#torch>=/' -e 's/^torchvision>=/#torchvision>=/' /opt/
     && python3 -m pip install --no-cache-dir gradio==5.35.0 sageattention==1.0.6 \
     && rm -rf /root/.cache/pip
 
-# Copy and set up our scripts
+# Copy and set up our startup script
 COPY start-wan2gp.sh /usr/local/bin/start-wan2gp.sh
-COPY setup-auth.sh /usr/local/bin/setup-auth.sh
-RUN chmod +x /usr/local/bin/start-wan2gp.sh /usr/local/bin/setup-auth.sh
+RUN chmod +x /usr/local/bin/start-wan2gp.sh
 
 # Expose ports for Gradio interface and Jupyter Lab
 EXPOSE 7860 8888

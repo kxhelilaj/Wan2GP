@@ -14,7 +14,7 @@ WAN2GP (aka "Wan 2.1 for the GPU Poor") is a free, open-source tool that lets yo
 
 This RunPod template is an extenstion of the official Runpod Pytorch 2.8.0 template. It gives you a fully configured environment with:
 
-- ✅ **Wan2GP Application** - Ready to use on port 7860 (password protected)
+- ✅ **Wan2GP Application** - Ready to use on port 7861 (password protected)
 - ✅ **Jupyter Lab** - Development environment on port 8888
 - ✅ **All Dependencies** - PyTorch, FFmpeg, and required python libraries pre-installed
 - ✅ **Storage** - Your models and outputs saved to `/workspace`
@@ -36,7 +36,7 @@ This RunPod template is an extenstion of the official Runpod Pytorch 2.8.0 templ
 #### Wan2GP Interface
 
 1. Wait for startup to complete
-2. Connect to port **7860**
+2. Connect to port **7861** (RunPod's authenticated proxy)
 3. **Login when prompted:**
    - Username: `admin`
    - Password: `gpuPoor2025`
@@ -65,10 +65,11 @@ WAN2GP_PASSWORD=your_secure_password
 
 ### How It Works
 
-- **nginx** automatically starts with password protection
-- **Port 7860**: Protected by login (what you access)
-- **Port 7861**: Internal Gradio application (hidden)
+- **Integrates with RunPod's nginx** by adding authentication to existing proxy
+- **Port 7861**: Protected by login (what you access)
+- **Port 7862**: Internal Gradio application (behind RunPod's proxy)
 - **Zero code changes**: wgp.py runs normally
+- **Reliable**: Fails clearly if RunPod infrastructure changes
 
 ### Benefits
 
@@ -83,6 +84,7 @@ If you want to disable authentication, SSH into your pod and run:
 
 ```bash
 python wgp.py --server-name 0.0.0.0 --server-port 7860
+# Then access via direct port 7860 instead of 7861
 ```
 
 ## Troubleshooting
@@ -123,4 +125,4 @@ python3 wgp.py --server-name 0.0.0.0
 
 ---
 
-**🎬 Go forth and create amazing videos. Just wait for startup and connect to port 7860!**
+**🎬 Go forth and create amazing videos. Just wait for startup and connect to port 7861!**
