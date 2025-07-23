@@ -58,6 +58,12 @@ server {
 }
 EOF
 
+# Ensure the main nginx config includes our proxy config from the conf.d directory
+if ! grep -q "include /etc/nginx/conf.d/.*.conf;" /etc/nginx/nginx.conf; then
+    echo "Adding 'include' for conf.d to nginx.conf..."
+    sed -i '/http {/a \    include /etc/nginx/conf.d/*.conf;' /etc/nginx/nginx.conf
+fi
+
 # Test nginx config
 if ! nginx -t 2>/dev/null; then
     echo "❌ ERROR: nginx configuration test failed"
@@ -87,10 +93,6 @@ echo "🔐 AUTHENTICATION REQUIRED:"
 echo "   Username: $USERNAME"
 echo "   Password: $PASSWORD"
 echo ""
-
-# Now chain to RunPod's natural startup process, giving our app a moment to start
-echo "Waiting for Wan2GP to initialize..."
-sleep 5
 
 echo "Starting RunPod services..."
 if [ -f "/start.sh" ]; then
