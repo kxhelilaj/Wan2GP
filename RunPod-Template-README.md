@@ -1,6 +1,6 @@
 # Wan2GP - AI Video Generation Template
 
-#### Last Updated on 7/22/2025 to Wan2GP v7.12
+#### Last Updated on 7/23/2025 to Wan2GP v7.12
 
 ## What is Wan2GP?
 
@@ -18,14 +18,13 @@ This RunPod template is an extenstion of the official Runpod Pytorch 2.8.0 templ
 - ✅ **Jupyter Lab** - Development environment on port 8888
 - ✅ **All Dependencies** - PyTorch, FFmpeg, and required python libraries pre-installed
 - ✅ **Storage** - Your models and outputs saved to `/workspace`
-- ✅ **Security** - Automatic nginx authentication to prevent unauthorized access
 
 ## Quick Start
 
-### 1. Launch Your Pod
+### 1. Launch Your Pod/Selecting GPU
 
 - **CUDA Version**: Make sure you use a machine that has **CUDA 12.8** installed (use additional filters when selecting machine)
-- **Recommended**: This template was tested with an A40
+- **Recommended GPU**: This template was tested with an A40
 
 ### 2. Wait for Startup (Important!)
 
@@ -60,32 +59,6 @@ WAN2GP_PASSWORD=your_secure_password
    ```
 3. Look for `--ServerApp.token=XXXXXX` in the output
 4. Use that token to log into Jupyter Lab
-
-## Authentication Details
-
-### How It Works
-
-- **Self-contained nginx authentication proxy** for reliable security
-- **Port 7862**: Protected by login (what you access)
-- **Port 7860**: Internal Gradio application (behind authentication proxy)
-- **Zero code changes**: wgp.py runs normally
-- **Reliable**: Fails clearly if RunPod infrastructure changes
-
-### Benefits
-
-- ✅ **Prevents unauthorized GPU usage** - stops random people from finding and abusing your instance
-- ✅ **Simple setup** - works automatically with default password
-- ✅ **Customizable** - set your own credentials via environment variables
-- ✅ **Professional** - proper HTTP basic authentication
-
-### Disable Authentication
-
-If you want to disable authentication, SSH into your pod and run:
-
-```bash
-python wgp.py --server-name 0.0.0.0 --server-port 7860
-# Then access via direct port 7860 instead of 7862
-```
 
 ## Troubleshooting
 
@@ -125,4 +98,4 @@ python3 wgp.py --server-name 0.0.0.0
 
 ---
 
-**🎬 Go forth and create amazing videos. Just wait for startup and connect to port 7861!**
+**🎬 Go forth and create amazing videos. Just wait for startup and connect to port 7862!**
