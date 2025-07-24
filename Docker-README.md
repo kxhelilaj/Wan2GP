@@ -98,7 +98,7 @@ Create a new RunPod template with these settings:
 
 The container automatically integrates with RunPod's nginx infrastructure:
 
-- **External Access**: Port 7861 with login required (RunPod's proxy + auth)
+- **External Access**: Port 7862 with login required (RunPod's proxy + auth)
 - **Internal Application**: Runs on port 7860 (behind authenticated proxy)
 - **No Code Changes**: wgp.py runs normally, nginx handles security
 - **Fail-Safe**: Container build fails if RunPod infrastructure changes
