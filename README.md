@@ -222,8 +222,7 @@ VACE improvements: Better sliding window transitions, image mask support in Mata
 
 👋 **One App to Rule Them All!** Added Hunyuan Video and LTX Video support, plus Vace 14B and integrated prompt enhancer.
 
-> > > > > > > 62ef963 (add basic auth)
-> > > > > > > See full changelog: **[Changelog](docs/CHANGELOG.md)**
+See full changelog: **[Changelog](docs/CHANGELOG.md)**
 
 ## 📋 Table of Contents
 
