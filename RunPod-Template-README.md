@@ -1,6 +1,8 @@
 # Wan2GP - AI Video Generation Template
 
-#### Last Updated on 7/24/2025 to Wan2GP v7.12
+#### Last Updated on 7/28/2025 to Wan2GP v7.3
+
+## _This template has been tested with an A40_
 
 ## What is Wan2GP?
 
